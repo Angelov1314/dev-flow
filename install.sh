@@ -27,6 +27,7 @@ SKILLS=(
   "architect"
   "planner"
   "santa-method"
+  "dev-router"
 )
 
 INSTALLED=0
@@ -71,6 +72,7 @@ echo "  /ralph             — gated autonomous loop"
 echo "  /architect         — architecture design"
 echo "  /planner           — implementation planning"
 echo "  /santa-method      — adversarial review"
+echo "  /dev-router        — register project in local launcher"
 echo ""
 echo "Quick start:"
 echo '  /dev-flow "Build a SaaS todo app with auth and billing"'

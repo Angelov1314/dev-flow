@@ -49,7 +49,7 @@ Phase 1: SCOPE        ──→  subagent  ──→  blueprint summary (~500 to
 Phase 2: PLAN         ──→  subagent  ──→  implementation plan summary (~500 tokens)
 Phase 3: ARCHITECT    ──→  subagent  ──→  architecture + ADR summary (~500 tokens)
 Phase 4: REVIEW       ──→  subagent  ──→  consensus summary (~400 tokens)
-Phase 5: BOOTSTRAP    ──→  main conversation (writes files to repo)
+Phase 5: BOOTSTRAP    ──→  main conversation (writes files + registers Dev Router)
 Phase 6: EXECUTE      ──→  main conversation (outputs ralph invocation)
 ```
 
@@ -57,8 +57,8 @@ Why subagents for 1-4: each phase loads its own skill context (~1-2k tokens)
 without polluting the main conversation. Results return as compressed summaries.
 
 Why main conversation for 5-6: these phases write files to the current repo
-(verify.sh, reviewer.md, CLAUDE.md). Subagents run in isolated contexts and
-cannot reliably write to the working directory.
+(verify.sh, reviewer.md, CLAUDE.md) and register the project with Dev Router.
+Subagents run in isolated contexts and cannot reliably write to the working directory.
 
 ## Phase 1: SCOPE
 
@@ -251,7 +251,7 @@ This phase runs in the main conversation because it writes files.
 
 Execute the repo-bootstrap workflow:
 
-1. Create the project directory (or use existing repo)
+1. Create the project directory under `~/Claude/Projects/` (or use existing repo)
 2. Initialize git if needed
 3. Generate `scripts/verify.sh` based on the tech stack from `$BLUEPRINT`
 4. Generate `.claude/agents/reviewer.md`
@@ -261,10 +261,18 @@ Execute the repo-bootstrap workflow:
    - Review findings from `$REVIEW`
    - Ralph invocation recommendation
 6. Set up basic project structure from `$PLAN`
+7. **Register with Dev Router**: ensure the project is in `~/Claude/Projects/`
+   and has the correct entry point for auto-discovery:
+   - Node.js → `package.json` with `"dev"` script
+   - Python → `app.py` / `server.py` / `main.py`
+   - Static → `index.html`
+   - If the project has a dev server, confirm it's launchable from Dev Router
+     (localhost:4000)
 
 Reference: Read ~/.claude/skills/repo-bootstrap/SKILL.md for the full protocol.
+Reference: Read ~/.claude/skills/dev-router/SKILL.md for Dev Router registration.
 
-Output: list of files created.
+Output: list of files created + Dev Router registration status.
 
 ## Phase 6: EXECUTE
 

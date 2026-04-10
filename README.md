@@ -119,9 +119,10 @@ Mega-skill would be: ~12,457 tokens (and no deep work per phase)
     │   or concede, produce stress-tested consensus
     │   ⚠️  GATE: NEEDS REWORK → stops and asks user
     │
-    ├── Phase 5: BOOTSTRAP ──── main conversation ──── repo-bootstrap
+    ├── Phase 5: BOOTSTRAP ──── main conversation ──── repo-bootstrap + dev-router
     │   Generates: scripts/verify.sh, .claude/agents/reviewer.md,
-    │   CLAUDE.md, GitHub CI (writes files to repo)
+    │   CLAUDE.md, GitHub CI — then registers project in Dev Router
+    │   for one-click launching from localhost:4000
     │
     └── Phase 6: EXECUTE ────── main conversation ──── ralph
         Outputs the /ralph-loop invocation with verification
@@ -144,6 +145,7 @@ Available on-demand during development:
 | **santa-method** | Adversarial consensus protocol | 1,653 | `/santa-method` |
 | **repo-bootstrap** | verify.sh + reviewer + CLAUDE.md | 3,424 | `/repo-bootstrap` |
 | **ralph** | Gated autonomous loop (wraps ralph-loop plugin) | 2,427 | `/ralph "fix auth bug"` |
+| **dev-router** | Register project in local launcher dashboard | 510 | `/dev-router` |
 
 Every skill works independently. The orchestrator is optional — you can invoke any skill directly.
 
@@ -308,8 +310,10 @@ dev-flow/
 │   │   └── SKILL.md                    # Architecture design
 │   ├── planner/
 │   │   └── SKILL.md                    # Implementation planning
-│   └── santa-method/
-│       └── SKILL.md                    # Adversarial review
+│   ├── santa-method/
+│   │   └── SKILL.md                    # Adversarial review
+│   └── dev-router/
+│       └── SKILL.md                    # Local project launcher registration
 └── docs/
     └── token-budget.md                 # Detailed token analysis
 ```
