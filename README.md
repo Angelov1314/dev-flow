@@ -13,6 +13,40 @@ From project idea to running code in one command.
 
 ---
 
+```mermaid
+flowchart TD
+    USER([" /dev-flow &quot;project idea&quot; "]):::entry --> P1
+
+    subgraph SUB["  Subagent Phases — isolated context windows  "]
+        P1["Phase 1: SCOPE\n/project-scoper\n📦 1,284 tokens"]:::sub
+        P2["Phase 2: PLAN\n/planner\n📋 816 tokens"]:::sub
+        P3["Phase 3: ARCHITECT\n/architect\n🏗 1,182 tokens"]:::sub
+        P4["Phase 4: REVIEW\n/santa-method\n⚔️ 1,653 tokens"]:::sub
+    end
+
+    subgraph MAIN["  Main Conversation — filesystem access  "]
+        P5["Phase 5: BOOTSTRAP\n/repo-bootstrap + /dev-router\n🔧 3,924 tokens"]:::main
+        P6["Phase 6: EXECUTE\n/ralph\n🚀 2,427 tokens"]:::main
+    end
+
+    P1 -->|"blueprint ~500 tok"| P2
+    P2 -->|"plan ~500 tok"| P3
+    P3 -->|"ADR ~500 tok"| P4
+    P4 -->|"APPROVED ✅"| P5
+    P4 -->|"NEEDS REWORK"| GATE{{"⚠️ Gate\nask user"}}:::gate
+    GATE -->|"re-architect"| P3
+    GATE -->|"proceed anyway"| P5
+    P5 -->|"files written"| P6
+    P6 --> DONE([" ✅ ready for autonomous dev "]):::entry
+
+    classDef entry fill:#1e293b,stroke:#7c3aed,color:#e2e8f0
+    classDef sub fill:#1e3a5f,stroke:#3b82f6,color:#e2e8f0
+    classDef main fill:#1a3a2a,stroke:#22c55e,color:#e2e8f0
+    classDef gate fill:#4a1a1a,stroke:#ef4444,color:#fca5a5
+```
+
+---
+
 ## What is this?
 
 Dev Flow is a **skill pipeline** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that orchestrates 7 specialized skills into a single development workflow. Instead of manually chaining `/scope` → `/plan` → `/architect` → `/review` → `/bootstrap` → `/ralph`, you run one command:
@@ -317,6 +351,15 @@ dev-flow/
 └── docs/
     └── token-budget.md                 # Detailed token analysis
 ```
+
+## Architecture Diagrams
+
+See [docs/architecture.md](docs/architecture.md) for the full visual breakdown:
+- Subagent context isolation model
+- Token budget bar chart (Dev Flow vs alternatives)
+- Full skill dependency map
+- Phase 5 bootstrap detail
+- Ralph Stop Hook sequence diagram
 
 ## Token Budget Deep Dive
 
