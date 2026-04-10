@@ -1,0 +1,6 @@
+.DS_Store
+*.swp
+*.swo
+*~
+.claude/ralph-loop.local.md
+.claude/ralph-progress.local.md
